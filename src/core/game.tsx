@@ -51,9 +51,6 @@ const ACTIONS = {
       })
     ),
   }),
-  update: z.object({
-    type: z.literal("update"),
-  }),
 } as const;
 
 function reducer(state: Game, action: Action): Game {
@@ -147,27 +144,6 @@ function reducer(state: Game, action: Action): Game {
     return next;
   }
 
-  if (action.type === "update") {
-    return state;
-    const score: Game["score"] = {};
-
-    for (const player of state.players) {
-      const lastRound = state.rounds[state.rounds.length - 1].find(
-        (round) => round.id === player.id
-      );
-
-      if (!lastRound) {
-        continue;
-      }
-
-      score[player.id] = lastRound.points;
-    }
-
-    next.score = score;
-
-    return next;
-  }
-
   return state;
 }
 
@@ -208,10 +184,6 @@ export function GameProvider({ children }: { children: ReactNode }) {
       return { ...DEFAULT_GAME_STATE };
     }
   });
-
-  useEffect(() => {
-    send({ type: "update" });
-  }, []);
 
   const send = useCallback((action: FormData | Action) => {
     let type: string = "";
