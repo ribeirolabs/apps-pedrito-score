@@ -1,0 +1,108 @@
+{
+  "scoreLimit": 25,
+  "players": [
+    {
+      "id": "7fd6ba59-7dc0-4798-ab06-566379b34130",
+      "name": "igor"
+    },
+    {
+      "id": "3af3591b-6cab-4de0-adb7-95d8056953b5",
+      "name": "nay"
+    },
+    {
+      "id": "a5543450-4155-4f30-89ab-be8636d7cd84",
+      "name": "gu"
+    },
+    {
+      "id": "f237b99b-16dc-45aa-b76c-d3277951cb9a",
+      "name": "gi"
+    },
+    {
+      "id": "f4f45f88-7358-48fb-980d-c2e59f4dec77",
+      "name": "vi"
+    }
+  ],
+  "rounds": [
+    [
+      {
+        "id": "7fd6ba59-7dc0-4798-ab06-566379b34130",
+        "score": 4,
+        "winner": false
+      },
+      {
+        "id": "3af3591b-6cab-4de0-adb7-95d8056953b5",
+        "score": 12,
+        "winner": false
+      },
+      {
+        "id": "a5543450-4155-4f30-89ab-be8636d7cd84",
+        "score": 5,
+        "winner": false
+      },
+      {
+        "id": "f237b99b-16dc-45aa-b76c-d3277951cb9a",
+        "score": 8,
+        "winner": false
+      },
+      {
+        "id": "f4f45f88-7358-48fb-980d-c2e59f4dec77",
+        "score": 0,
+        "winner": true
+      }
+    ],
+    [
+      {
+        "id": "7fd6ba59-7dc0-4798-ab06-566379b34130",
+        "score": 14,
+        "winner": false
+      },
+      {
+        "id": "3af3591b-6cab-4de0-adb7-95d8056953b5",
+        "score": 12,
+        "winner": true
+      },
+      {
+        "id": "a5543450-4155-4f30-89ab-be8636d7cd84",
+        "score": 5,
+        "winner": true
+      },
+      {
+        "id": "f237b99b-16dc-45aa-b76c-d3277951cb9a",
+        "score": 17,
+        "winner": false
+      },
+      {
+        "id": "f4f45f88-7358-48fb-980d-c2e59f4dec77",
+        "score": 8,
+        "winner": false
+      }
+    ],
+    [
+      {
+        "id": "7fd6ba59-7dc0-4798-ab06-566379b34130",
+        "score": 25,
+        "winner": false
+      },
+      {
+        "id": "3af3591b-6cab-4de0-adb7-95d8056953b5",
+        "score": 18,
+        "winner": false
+      },
+      {
+        "id": "a5543450-4155-4f30-89ab-be8636d7cd84",
+        "score": 12,
+        "winner": false
+      },
+      {
+        "id": "f237b99b-16dc-45aa-b76c-d3277951cb9a",
+        "score": 30,
+        "winner": false
+      },
+      {
+        "id": "f4f45f88-7358-48fb-980d-c2e59f4dec77",
+        "score": 8,
+        "winner": true
+      }
+    ]
+  ]
+}
