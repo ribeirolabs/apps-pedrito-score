@@ -1,3 +1,4 @@
+import { useLocalStorage } from "@ribeirolabs/local-storage/react";
 import { useState } from "react";
 import { Button } from "./components/Button";
 import { Form } from "./components/Form";
@@ -14,29 +15,7 @@ function App() {
   }
 
   if (game.page === "setup") {
-    return (
-      <Form className="p-3 flex flex-col gap-3">
-        <h1 className="text-3xl font-black">{t("players")}</h1>
-
-        <input type="hidden" name="type" value="setup" />
-
-        <textarea
-          name="players"
-          className="input"
-          rows={5}
-          placeholder={t("players")}
-        />
-
-        <input
-          type="number"
-          className="input"
-          name="scoreLimit"
-          placeholder={t("score_limit")}
-        />
-
-        <Button type="submit">{t("start")}</Button>
-      </Form>
-    );
+    return <GameSetup />;
   }
 
   const isOver = game.eliminated.length === game.players.length - 1;
@@ -58,7 +37,7 @@ function App() {
   }
 
   return (
-    <div className="p-3 flex flex-col gap-3 h-full">
+    <div className="p-3 flex flex-col gap-3 h-full max-w-lg mx-auto">
       <div className="flex-1 overflow-y-auto">
         <ul
           className="grid"
@@ -77,8 +56,8 @@ function App() {
                   game.eliminated.includes(player.id)
                     ? "text-neutral-400 dark:text-neutral-500"
                     : wonGame
-                    ? "text-green-600"
-                    : "text-neutral-500 dark:text-neutral-300"
+                      ? "text-green-600"
+                      : "text-neutral-500 dark:text-neutral-300"
                 )}
               >
                 {player.name}
@@ -114,10 +93,10 @@ function App() {
                       isEliminated
                         ? "bg-neutral-300 text-neutral-400 dark:bg-neutral-700 dark:text-neutral-500"
                         : round.winner
-                        ? "bg-green-300 dark:bg-green-900 text-green-800 dark:text-green-300"
-                        : round.pedritro
-                        ? "bg-red-300 text-red-800 dark:bg-red-800 dark:text-red-200"
-                        : "",
+                          ? "bg-green-300 dark:bg-green-900 text-green-800 dark:text-green-300"
+                          : round.pedritro
+                            ? "bg-red-300 text-red-800 dark:bg-red-800 dark:text-red-200"
+                            : "",
                       wonGame && "text-green-600"
                     )}
                   >
@@ -152,6 +131,40 @@ function App() {
         )}
       </Form>
     </div>
+  );
+}
+
+function GameSetup() {
+  const { t } = useTranslation();
+  const [players, setPlayers] = useLocalStorage("players", "");
+  const [scoreLimit, setScoreLimit] = useLocalStorage("scoreLimit", "");
+
+  return (
+    <Form className="p-3 flex flex-col gap-3 max-w-lg mx-auto">
+      <h1 className="text-3xl font-black">{t("players")}</h1>
+
+      <input type="hidden" name="type" value="setup" />
+
+      <textarea
+        name="players"
+        className="input"
+        rows={5}
+        placeholder={t("players")}
+        value={players}
+        onChange={(e) => setPlayers(e.target.value)}
+      />
+
+      <input
+        type="number"
+        className="input"
+        name="scoreLimit"
+        placeholder={t("score_limit")}
+        value={scoreLimit}
+        onChange={(e) => setScoreLimit(e.target.value)}
+      />
+
+      <Button type="submit">{t("start")}</Button>
+    </Form>
   );
 }
 
