@@ -1,5 +1,5 @@
 import { useLocalStorage } from "@ribeirolabs/local-storage/react";
-import { useState } from "react";
+import { useMemo, useState } from "react";
 import { Button } from "./components/Button";
 import { Form } from "./components/Form";
 import { useGameState } from "./core/game";
@@ -36,6 +36,76 @@ function App() {
 
     return winner != null;
   }
+
+  const winner = game.players.find((player) => checkGameWinner(player.id));
+  const most = useMemo(() => {
+    const pedritoByPlayer: Record<string, number> = {};
+    const errorsByPlayer: Record<string, number> = {};
+    const winsByPlayer: Record<string, number> = {};
+
+    type Most = { player: string | null; count: number };
+
+    let most: { pedrito: Most; error: Most; wins: Most } = {
+      wins: {
+        player: null,
+        count: 0,
+      },
+      pedrito: {
+        player: null,
+        count: 0,
+      },
+      error: {
+        player: null,
+        count: 0,
+      },
+    };
+
+    for (let i = 0; i < game.players.length; i++) {
+      const player = game.players[i];
+      pedritoByPlayer[player.name] = 0;
+      errorsByPlayer[player.name] = 0;
+      winsByPlayer[player.name] = 0;
+
+      for (const score of game.rounds) {
+        const round = score[i];
+
+        if (round.pedritro) {
+          pedritoByPlayer[player.name] += 1;
+        }
+
+        if (round.pedritro && !round.winner) {
+          errorsByPlayer[player.name] += 1;
+        }
+
+        if (round.winner) {
+          winsByPlayer[player.name] += 1;
+        }
+      }
+    }
+
+    for (const player of game.players) {
+      const pedrito = pedritoByPlayer[player.name];
+      const error = errorsByPlayer[player.name];
+      const wins = winsByPlayer[player.name];
+
+      if (pedrito > most.pedrito.count) {
+        most.pedrito.player = player.name;
+        most.pedrito.count = pedrito;
+      }
+
+      if (wins > most.wins.count) {
+        most.wins.player = player.name;
+        most.wins.count = wins;
+      }
+
+      if (error > most.error.count) {
+        most.error.player = player.name;
+        most.error.count = error;
+      }
+    }
+
+    return most;
+  }, [game]);
 
   return (
     <div className="flex flex-col gap-3 h-full max-w-lg mx-auto">
@@ -92,7 +162,7 @@ function App() {
                     className={twMerge(
                       "font-black rounded-full w-8 h-8 inline-flex items-center justify-center",
                       isEliminated
-                        ? "text-neutral-700" // "bg-neutral-300 text-neutral-400 dark:bg-neutral-700 dark:text-neutral-500"
+                        ? "text-neutral-400/60 dark:text-neutral-700" // "bg-neutral-300 text-neutral-400 dark:bg-neutral-700 dark:text-neutral-500"
                         : round.winner
                           ? "bg-green-300 dark:bg-green-900 text-green-800 dark:text-green-300"
                           : round.pedritro
@@ -100,11 +170,11 @@ function App() {
                             : "",
                       isEliminated &&
                         round.winner &&
-                        "dark:bg-neutral-800 dark:text-neutral-600",
+                        "bg-neutral-200 text-neutral-400/70 dark:bg-neutral-800 dark:text-neutral-600",
                       isEliminated &&
                         !round.winner &&
                         round.pedritro &&
-                        "text-red-600 dark:text-red-400/50",
+                        "text-red-300 dark:text-red-400/50",
                       wonGame && "text-green-600"
                     )}
                   >
@@ -115,6 +185,47 @@ function App() {
             })
           )}
         </ul>
+
+        {isOver && (
+          <div className="p-3 grid gap-3 mt-6">
+            <div className="flex justify-between items-center border-b">
+              <p className="font-bold text-xl text-neutral-500 leading-none">
+                Vencedor
+              </p>
+              <p className="font-bold text-xl">{winner?.name}</p>
+            </div>
+            <div className="flex justify-between items-center border-b">
+              <p className="font-bold text-xl text-neutral-500 leading-none">
+                Mais pedritos
+              </p>
+              <p className="font-bold text-xl text-end leading-none">
+                {most.pedrito.player}
+                <br />
+                {most.pedrito.count}
+              </p>
+            </div>
+            <div className="flex justify-between items-center border-b">
+              <p className="font-bold text-xl text-neutral-500 leading-none">
+                Mais Vitórias
+              </p>
+              <p className="font-bold text-xl text-end leading-none">
+                {most.wins.player}
+                <br />
+                {most.wins.count}
+              </p>
+            </div>
+            <div className="flex justify-between items-center border-b">
+              <p className="font-bold text-xl text-neutral-500 leading-none">
+                Mais erros
+              </p>
+              <p className="font-bold text-xl text-end leading-none">
+                {most.error.player}
+                <br />
+                {most.error.count}
+              </p>
+            </div>
+          </div>
+        )}
       </div>
 
       <Form className="p-3 flex w-full justify-between gap-3 flex-shrink-0">
