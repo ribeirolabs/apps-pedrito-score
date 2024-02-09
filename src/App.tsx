@@ -5,6 +5,7 @@ import { Form } from "./components/Form";
 import { useGameState } from "./core/game";
 import { cn } from "./helpers";
 import { useTranslation } from "./intl/Provider";
+import { twMerge } from "tailwind-merge";
 
 function App() {
   const game = useGameState();
@@ -37,7 +38,7 @@ function App() {
   }
 
   return (
-    <div className="p-3 flex flex-col gap-3 h-full max-w-lg mx-auto">
+    <div className="flex flex-col gap-3 h-full max-w-lg mx-auto">
       <div className="flex-1 overflow-y-auto">
         <ul
           className="grid"
@@ -88,15 +89,22 @@ function App() {
                   className={cn("text-center text-xl py-1 border-b")}
                 >
                   <span
-                    className={cn(
+                    className={twMerge(
                       "font-black rounded-full w-8 h-8 inline-flex items-center justify-center",
                       isEliminated
-                        ? "bg-neutral-300 text-neutral-400 dark:bg-neutral-700 dark:text-neutral-500"
+                        ? "text-neutral-700" // "bg-neutral-300 text-neutral-400 dark:bg-neutral-700 dark:text-neutral-500"
                         : round.winner
                           ? "bg-green-300 dark:bg-green-900 text-green-800 dark:text-green-300"
                           : round.pedritro
                             ? "bg-red-300 text-red-800 dark:bg-red-800 dark:text-red-200"
                             : "",
+                      isEliminated &&
+                        round.winner &&
+                        "dark:bg-neutral-800 dark:text-neutral-600",
+                      isEliminated &&
+                        !round.winner &&
+                        round.pedritro &&
+                        "text-red-600 dark:text-red-400/50",
                       wonGame && "text-green-600"
                     )}
                   >
@@ -109,7 +117,7 @@ function App() {
         </ul>
       </div>
 
-      <Form className="flex w-full justify-between gap-3 flex-shrink-0">
+      <Form className="p-3 flex w-full justify-between gap-3 flex-shrink-0">
         <Button
           variant="secondary"
           onClick={() => {

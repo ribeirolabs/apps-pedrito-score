@@ -7,6 +7,7 @@ import {
   useState,
 } from "react";
 import { Lang, TOKENS, Tokens } from "./translations";
+import { getLocalStorage, setLocalStorage } from "@ribeirolabs/local-storage";
 
 type Context = {
   lang: Lang;
@@ -39,20 +40,19 @@ export function TranslationProvider({ children }: { children: ReactNode }) {
   const [context, setContext] = useState<Context>(null);
 
   useEffect(() => {
-    const lang = (new URLSearchParams(location.search).get("lang") ??
-      navigator.language) as Lang;
+    let lang = (new URLSearchParams(location.search).get("lang") ??
+      getLocalStorage("lang", navigator.language)) as Lang;
 
-    if (lang in TOKENS) {
-      setContext({
-        lang,
-        tokens: TOKENS[lang],
-      });
-    } else {
-      setContext({
-        lang: "en-US",
-        tokens: TOKENS["en-US"],
-      });
+    if (lang in TOKENS === false) {
+      lang = "en-US";
     }
+
+    setLocalStorage("lang", lang);
+
+    setContext({
+      lang,
+      tokens: TOKENS[lang],
+    });
   }, []);
 
   if (context == null) {
