@@ -38,7 +38,7 @@ function App() {
   }
 
   const winner = game.players.find((player) => checkGameWinner(player.id));
-  const most = useMemo(() => {
+  /*const most = useMemo(() => {
     const pedritoByPlayer: Record<string, number> = {};
     const errorsByPlayer: Record<string, number> = {};
     const winsByPlayer: Record<string, number> = {};
@@ -109,7 +109,7 @@ function App() {
     }
 
     return most;
-  }, [game, isOver]);
+  }, [game, isOver]);*/
 
   return (
     <div className="flex flex-col gap-3 h-full max-w-lg mx-auto">
