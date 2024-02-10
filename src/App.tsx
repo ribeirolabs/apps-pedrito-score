@@ -190,7 +190,7 @@ function App() {
           )}
         </ul>
 
-        {isOver && (
+        {/*isOver && (
           <div className="p-3 grid gap-3 mt-6">
             <div className="flex justify-between items-center border-b">
               <p className="font-bold text-xl text-neutral-500 leading-none">
@@ -229,7 +229,7 @@ function App() {
               </p>
             </div>
           </div>
-        )}
+        )*/}
       </div>
 
       <Form className="p-3 flex w-full justify-between gap-3 flex-shrink-0">
