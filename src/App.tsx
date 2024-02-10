@@ -109,7 +109,7 @@ function App() {
     }
 
     return most;
-  }, [game]);
+  }, [game, isOver]);
 
   return (
     <div className="flex flex-col gap-3 h-full max-w-lg mx-auto">
