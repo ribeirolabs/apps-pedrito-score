@@ -60,6 +60,10 @@ function App() {
       },
     };
 
+    if (!isOver) {
+        return most
+    }
+
     for (let i = 0; i < game.players.length; i++) {
       const player = game.players[i];
       pedritoByPlayer[player.name] = 0;
